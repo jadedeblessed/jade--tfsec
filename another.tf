@@ -84,7 +84,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "my_bucket" {
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.mykey.arn
+      kms_master_key_id = aws_kms_key.my_kms_key.arn
       sse_algorithm     = "aws:kms"
     }
   }
@@ -96,7 +96,7 @@ resource "aws_kms_key" "my_kms_key" {
   enable_key_rotation = true
 }
 
-resource "aws_s3_bucket_logging" "my_bucket" {
+/*resource "aws_s3_bucket_logging" "my_bucket" {
   bucket = aws_s3_bucket.my_bucket.id
 
   target_bucket = aws_s3_bucket.jadedegreat-demo
@@ -109,7 +109,7 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
     status = "Enabled"
   }
 }
-
+*/
 
 
 
