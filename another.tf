@@ -67,34 +67,56 @@ data "aws_ami" "amzlinux2" {
 
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "jadedegreat-demo"
-  /*
+}
+  
+resource "aws_s3_bucket_public_access_block" "my_bucket" {
+  bucket = aws_s3_bucket.my_bucket.id
+  
   block_public_acls = true
   block_public_policy = true 
   ignore_public_acls = true
   restrict_public_buckets = true
-   */
-
-
-logging {
-        target_bucket = "target-bucket"
-    }
-
-
-server_side_encryption_configuration {
-     rule {
-       apply_server_side_encryption_by_default {
-         kms_master_key_id = "arn"
-         sse_algorithm     = "aws:kms"
-       }
-     }
-   }
-
 }
 
-resource "aws_s3_bucket_public_access_block" "my_bucket" {
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "my_bucket" {
   bucket = aws_s3_bucket.my_bucket.id
-  block_public_acls = true
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.mykey.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
 }
+
+resource "aws_kms_key" "my_kms_key" {
+  description             = "This key is used to encrypt bucket objects"
+  deletion_window_in_days = 10
+  #enable_key_rotation = true
+}
+
+resource "aws_s3_bucket_logging" "my_bucket" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  target_bucket = aws_s3_bucket.jadedegreat-demo
+  target_prefix = "log/"
+}
+
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.my_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+
+
+
+
+
+
 
 
  resource "aws_s3_bucket_public_access_block" "my_bucket" {
