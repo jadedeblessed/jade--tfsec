@@ -71,6 +71,7 @@ resource "aws_s3_bucket" "my_bucket" {
   block_public_policy = true 
   ignore_public_acls = true
   restrict_public_buckets = true
+   
 
 
 logging {
@@ -88,15 +89,12 @@ server_side_encryption_configuration {
    }
 
 }
-
+/*
 resource "aws_s3_bucket_public_access_block" "my_bucket" {
   bucket = aws_s3_bucket.my_bucket.id
   block_public_acls = true
 }
-resource "aws_s3_bucket_public_access_block" "my_bucket" {
-  bucket = aws_s3_bucket.my_bucket.id 
-  block_public_policy = true 
-}
+
 
  resource "aws_s3_bucket_public_access_block" "my_bucket" {
     bucket = aws_s3_bucket.my_bucket.id
@@ -109,3 +107,4 @@ resource "aws_s3_bucket_public_access_block" "my_bucket" {
     block_public_acls   = true
     block_public_policy = true
  }
+*/
