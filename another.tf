@@ -93,7 +93,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "my_bucket" {
 resource "aws_kms_key" "my_kms_key" {
   description             = "This key is used to encrypt bucket objects"
   deletion_window_in_days = 10
-  #enable_key_rotation = true
+  enable_key_rotation = true
 }
 
 resource "aws_s3_bucket_logging" "my_bucket" {
@@ -119,13 +119,3 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
 
 
 
- resource "aws_s3_bucket_public_access_block" "my_bucket" {
-    bucket = aws_s3_bucket.my_bucket.id
-    ignore_public_acls = true
- }
-
-  resource "aws_s3_bucket_public_access_block" "my_bucket" {
-    bucket = aws_s3_bucket.my_bucket.id
-    block_public_acls   = true
-    block_public_policy = true
- }
