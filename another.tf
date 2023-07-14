@@ -6,6 +6,12 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
   ami = data.aws_ami.amzlinux2.id
 
+  root_block_device {
+        encrypted = true
+    }
+  metadata_options {
+        http_tokens = "required"
+      }  
 }
 
 resource "aws_vpc" "demo_vpc" {
@@ -28,7 +34,14 @@ resource "aws_launch_configuration" "my_web_config" {
   name = "my_web_config"
   image_id = data.aws_ami.amzlinux2.id
   instance_type = "t2.micro"
+  
+  root_block_device {
+        encrypted = true
+    }
 
+    metadata_options {
+       http_tokens = "required"
+     }  
 }
 
 data "aws_ami" "amzlinux2" {
@@ -54,5 +67,25 @@ data "aws_ami" "amzlinux2" {
 
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "jadedegreat-demo"
+  block_public_acls = true
+  block_public_policy = true 
+  ignore_public_acls = true
+  restrict_public_buckets = true
+
+
+logging {
+        target_bucket = "target-bucket"
+    }
+
+
+server_side_encryption_configuration {
+     rule {
+       apply_server_side_encryption_by_default {
+         kms_master_key_id = "arn"
+         sse_algorithm     = "aws:kms"
+       }
+     }
+   }
+
 }
 
