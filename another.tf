@@ -98,12 +98,12 @@ resource "aws_kms_key" "my_kms_key" {
   enable_key_rotation = true
 }
 
-resource "aws_s3_bucket_logging" "my_bucket" {
+/*resource "aws_s3_bucket_logging" "my_bucket" {
   bucket = aws_s3_bucket.my_bucket.id
-  target_bucket = aws_s3_bucket.lael70.local
+  target_bucket = aws_s3_bucket.lael70
   target_prefix = "log/"
 }
-
+*/
 resource "aws_s3_bucket_versioning" "versioning_example" {
   bucket = aws_s3_bucket.my_bucket.id
   versioning_configuration {
