@@ -53,8 +53,8 @@ jobs:
         #id: format
         run: terraform fmt
      
-      #- name: Run tfsec
-       # run: tfsec .
+      - name: Run tfsec
+        run: tfsec .
 
       - name: Run Terraform Scan
         run: |
@@ -85,6 +85,7 @@ jobs:
 
       - name: Run Checkov
         run: docker run --volume "${{ env.GITHUB_WORKSPACE }}":/tf bridgecrew/checkov -f tfplan.json --soft-fail
-
+      
+        
       
 
